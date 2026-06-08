@@ -604,8 +604,7 @@ def main():
         chosen = rng2.choice(full_fens, size=5, replace=False)
         hdri_fail = False
         body.append("Per-FEN per-render mean-brightness (within ±1% of mean = HDRI broken):")
-        # We need image stats — but we computed them already in section [3].
-        # Build a (image_name -> stats) map for fast lookup.
+        # Reuse the stats computed in section [3], keyed by image name.
         name_to_stats = {}
         for i in range(n_rows):
             name = Path(df.loc[i, "image_path"]).name
