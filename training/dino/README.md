@@ -46,12 +46,14 @@ Outputs route through `--run_name` under `dino/`. Hard write-guard (in `train.py
 PY=~/.conda/envs/chess/bin/python
 cd /home/eladbaum/chess_project/training/dino
 
-$PY training_scripts/confirm_dino.py                                  # step 0 (no training)
-$PY -u training_scripts/train.py --mode zeroshot --run_name dino_zeroshot
-$PY -u training_scripts/train.py --mode stage3   --run_name dino_fine_tuned
-$PY -u training_scripts/train.py --mode stage5   --run_name dino_combined
-$PY -u training_scripts/train.py --mode linprobe --run_name dino_combined_linprob
-$PY build_report.py
+$PY -u train.py --mode zeroshot --run_name dino_zeroshot
+$PY -u train.py --mode stage3   --run_name dino_fine_tuned
+$PY -u train.py --mode stage5   --run_name dino_combined
+$PY -u train.py --mode linprobe --run_name dino_combined_linprob
+# special runs (dedicated scripts):
+$PY -u train_combindedGame6_diag.py --run_name dino_combined_Game6boosted
+$PY -u train_realonly_ablation.py   --run_name dino_realOnly
+$PY -u train_labelsmooth_ablation.py --run_name dino_combined_Game6boosted_ablation_LabelSmoothing
 ```
 
 `eval_games_2_6.py --run_name <run>` re-runs the verbatim games-2/6 eval (with the DINO
