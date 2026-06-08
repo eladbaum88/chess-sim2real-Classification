@@ -55,13 +55,13 @@ Thumbs.db
 # ---- diagnostic/report-figure scripts: kept locally, not part of the submission ----
 analysis/
 
-# ---- syn_data_generation: keep only dataset_v1 code; ignore v2/legacy renderers + audit outputs ----
-syn_data_generation/build_dataset.py
-syn_data_generation/build_dataset_v2.py
-syn_data_generation/chess_position_api_v2.py
-syn_data_generation/chess_position_api_v3.py
-syn_data_generation/assets_registry.py
-syn_data_generation/labels.py
+# ---- syn_data_generation: only dataset_v1 code is tracked ----
+# v1.5 / v2 generation code is collected into these folders, kept locally only.
+syn_data_generation/dataset_v1.5/
+syn_data_generation/dataset_v2/
 syn_data_generation/audit_dataset_v1_grid_dumps.txt
 syn_data_generation/audit_report.txt
-syn_data_generation/verify_fixes.py
+
+# ---- preprocessing: only the core dataset_v1 pipeline is tracked ----
+preprocessing/game7_orientation_diagnostics.py
+preprocessing/train_zero_shot.py
