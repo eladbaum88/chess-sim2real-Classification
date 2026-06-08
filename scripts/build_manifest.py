@@ -29,8 +29,8 @@ from pathlib import Path
 from scripts.fen_to_grid import fen_to_label_grid
 
 
-DATASET_DIR = Path("/home/eladbaum/chess_project/Project2_3/dataset_v1/images")
-LABELS_CSV = Path("/home/eladbaum/chess_project/Project2_3/dataset_v1/labels.csv")
+DATASET_DIR = Path("/home/eladbaum/chess_project/data_generation/dataset_v1/images")
+LABELS_CSV = Path("/home/eladbaum/chess_project/data_generation/dataset_v1/labels.csv")
 OUT_CSV = Path("/home/eladbaum/chess_project/manifest.csv")
 VALID_VIEWS = ("overhead", "west", "east")
 

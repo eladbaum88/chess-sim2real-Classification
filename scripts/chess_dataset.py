@@ -33,7 +33,7 @@ from scripts.verify_woelflein_crops import warp_chessboard_image, crop_square
 
 
 DEFAULT_DATASET_DIR = Path(
-    "/home/eladbaum/chess_project/Project2_3/dataset_v1/images"
+    "/home/eladbaum/chess_project/data_generation/dataset_v1/images"
 )
 
 

@@ -34,7 +34,7 @@ from scripts.verify_woelflein_crops import find_corners, ChessboardNotLocatedExc
 # --------------------------------------------------------------------------
 # Config
 # --------------------------------------------------------------------------
-DATASET_DIR = Path("/home/eladbaum/chess_project/Project2_3/dataset_v1/images")
+DATASET_DIR = Path("/home/eladbaum/chess_project/data_generation/dataset_v1/images")
 OUT_JSON = Path("/home/eladbaum/chess_project/corners.json")
 OUT_FALLBACK = Path("/home/eladbaum/chess_project/fallback_corners.json")
 OUT_CSV = Path("/home/eladbaum/chess_project/corner_detection_log.csv")

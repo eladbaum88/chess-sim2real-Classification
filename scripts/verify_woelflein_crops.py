@@ -92,7 +92,7 @@ IMG_SIZE = BOARD_SIZE + 2 * SQUARE_SIZE  # 500 — board at inner [50..450]
 # --------------------------------------------------------------------------
 # Paths
 # --------------------------------------------------------------------------
-DATASET_DIR = Path("/home/eladbaum/chess_project/Project2_3/dataset_v1/images")
+DATASET_DIR = Path("/home/eladbaum/chess_project/data_generation/dataset_v1/images")
 RESULTS_DIR = Path("/home/eladbaum/chess_project/results/verify_woelflein_midgame")
 RESULTS_DIR.mkdir(exist_ok=True, parents=True)
 
