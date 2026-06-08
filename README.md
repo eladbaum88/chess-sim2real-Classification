@@ -16,12 +16,12 @@ a 13-class CNN/ViT (12 piece types + empty). The graded entry point is
 | [`evaluation/`](evaluation/) | **Evaluation deliverable.** `predict_board(image)` + the vendored DINOv2 backbone. Loads the graded checkpoint from `checkpoints/` and runs offline. (A local `evaluate.py` validation harness is kept on disk, gitignored.) |
 | [`preprocessing/`](preprocessing/) | Shared library: corner detection / warp / crop (`verify_woelflein_crops.py`), FEN→label grid (`fen_to_grid.py`, `view_orientations.py`), the PyTorch `ChessSquareDataset`, manifest/corner-cache builders. |
 | [`syn_data_generation/`](syn_data_generation/) | Blender synthetic-dataset generation for **dataset_v1** (`build_dataset_v1.py`, `chess_position_api_v1_hdri.py`, `render_full_dataset_v1.sbatch`) and dataset audits. Runs inside Blender's Python. |
-| [`training/`](training/) | Model training, one subfolder per architecture: [`dino/`](training/dino/) (DINOv2 ViT-S/14), [`convnext/`](training/convnext/) (ConvNeXt-Tiny), [`resnet18/`](training/resnet18/) (ResNet-18 baselines, fine-tuning and combined stages). Each has its own `README.md`, training scripts, and per-run results. |
-| [`checkpoints/`](checkpoints/) | Catalog of all trained model runs (one subfolder per run) with metrics. Weight files are hosted externally (Drive) and gitignored; see [`checkpoints/README.md`](checkpoints/README.md). The one graded weight (`dino_combined_Game6boosted/best_real.pt`) **is** committed here; `evaluation/predict_board.py` loads it. |
+| [`training/dino/`](training/dino/) | DINOv2 ViT-S/14 training code. Shared parametrized trainer in [`training_scripts/train.py`](training/dino/training_scripts/train.py) (6 runs via `--mode`/`--run_name`), plus a per-version folder with the dedicated script for each of the 3 special runs (`dino_combined_Game6boosted`, `dino_realOnly`, `dino_combined_Game6boosted_ablation_LabelSmoothing`). |
+| [`checkpoints/`](checkpoints/) | Per-run catalog with metrics ([`checkpoints/README.md`](checkpoints/README.md)). Each run's `best_real.pt` is committed; other variants are gitignored. `evaluation/predict_board.py` loads `dino_combined_Game6boosted/best_real.pt`. |
 
-Per-run quantitative results (metrics, recipes, eval JSONs, training curves) live under each
-`training/<arch>/results/`. Top-level diagnostic figures are written to a local `results/` folder
-that is gitignored — they belong in the report PDF, not the repo.
+The ConvNeXt-Tiny and ResNet-18 comparison experiments (`training/convnext/`, `training/resnet18/`)
+and all diagnostic figures/results are kept **local only** (gitignored) — they live on the Drive
+and in the report PDF, not the repo.
 
 ## Setup (from clone)
 

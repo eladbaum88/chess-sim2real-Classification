@@ -1,4 +1,0 @@
-view      n        acc
-  overhead   19968   0.9986
-  west       19968   0.9996
-  east       19968   0.9997

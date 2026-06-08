@@ -74,3 +74,21 @@ results/
 evaluation/evaluate.py
 evaluation/fen_to_grid.py
 evaluation/view_orientations.py
+
+# ---- training/convnext & training/resnet18: kept local only (not tracked) ----
+training/convnext/
+training/resnet18/
+
+# ---- training/dino: track only per-version training code + README ----
+training/dino/results/
+training/dino/plots/
+training/dino/eval_games_2_6.py
+training/dino/build_report.py
+training/dino/training_scripts/*
+!training/dino/training_scripts/train.py
+training/dino/dino_combined_Game6boosted/*
+!training/dino/dino_combined_Game6boosted/train_combindedGame6_diag.py
+training/dino/dino_realOnly/*
+!training/dino/dino_realOnly/train_realonly_ablation.py
+training/dino/dino_combined_Game6boosted_ablation_LabelSmoothing/*
+!training/dino/dino_combined_Game6boosted_ablation_LabelSmoothing/train_labelsmooth_ablation.py
