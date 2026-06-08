@@ -45,5 +45,5 @@ Thumbs.db
 *.onnx
 
 # ---- KEEP the submission checkpoint (negate the ignore above) ----
-!submission_model/checkpoints/
-!submission_model/checkpoints/best_real.pt
+!submission/checkpoints/
+!submission/checkpoints/best_real.pt
