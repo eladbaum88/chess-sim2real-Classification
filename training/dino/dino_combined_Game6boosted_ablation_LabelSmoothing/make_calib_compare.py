@@ -20,9 +20,9 @@ RESIZE = T.Resize((224, 224), antialias=True)
 MEAN = torch.tensor([0.485, 0.456, 0.406]).view(3, 1, 1).to(DEV)
 STD = torch.tensor([0.229, 0.224, 0.225]).view(3, 1, 1).to(DEV)
 ROOT = "/home/eladbaum/chess_project"
-CKPTS = {"combined_game6": f"{ROOT}/dino/checkpoints/dino_combined_Game6boosted/best_real.pt",
-         "label_smoothing": f"{ROOT}/dino/dino_combined_Game6boosted_ablation_LabelSmoothing/checkpoints/best_real.pt"}
-OUT = f"{ROOT}/dino/dino_combined_Game6boosted_ablation_LabelSmoothing/results/labelsmooth_vs_combined_compare.json"
+CKPTS = {"combined_game6": f"{ROOT}/checkpoints/dino_combined_Game6boosted/best_real.pt",
+         "label_smoothing": f"{ROOT}/checkpoints/dino_combined_Game6boosted_ablation_LabelSmoothing/best_real.pt"}
+OUT = f"{ROOT}/training/dino/dino_combined_Game6boosted_ablation_LabelSmoothing/results/labelsmooth_vs_combined_compare.json"
 
 
 class Dino(nn.Module):

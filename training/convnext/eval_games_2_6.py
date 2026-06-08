@@ -21,7 +21,7 @@ from rescan_checkpoint_selection import (
     BATCH_SIZE, DEVICE,
 )
 CLASS_SHORT = ["wP", "wR", "wN", "wB", "wQ", "wK", "bP", "bR", "bN", "bB", "bQ", "bK", "empty"]
-EXP_DIR = f"{PROJECT_ROOT}/convnext"
+EXP_DIR = f"{PROJECT_ROOT}/training/convnext"
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--run_name", required=True)

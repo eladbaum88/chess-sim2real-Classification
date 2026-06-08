@@ -119,7 +119,7 @@ EXP_DIR = "/home/eladbaum/chess_project/training/dino"
 _FROZEN = ("zero_shot", "stage1_10", "stage2_30", "stage3_323", "stage3_improved",
            "stage5_combined_323", "convnext")
 def guard(run_name):
-    d = os.path.realpath(f"{EXP_DIR}/checkpoints/{run_name}")
+    d = os.path.realpath(f"{PROJECT_ROOT}/checkpoints/{run_name}")
     assert d.startswith(os.path.realpath(EXP_DIR) + os.sep), "not under dino/"
     for tok in _FROZEN:
         assert tok not in d, f"names frozen baseline '{tok}'"

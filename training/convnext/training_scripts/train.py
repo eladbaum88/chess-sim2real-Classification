@@ -144,7 +144,7 @@ SYNTH_DATASET_DIR = f"{PROJECT_ROOT}/data/dataset_v1/images"
 SYNTH_MANIFEST_PATH = f"{PROJECT_ROOT}/scripts/manifest.csv"
 SYNTH_CORNERS_PATH = f"{PROJECT_ROOT}/scripts/corners.json"
 
-EXP_DIR = f"{PROJECT_ROOT}/convnext"
+EXP_DIR = f"{PROJECT_ROOT}/training/convnext"
 CHECKPOINTS_DIR = f"{EXP_DIR}/checkpoints/{RUN_NAME}"
 RESULTS_DIR = f"{EXP_DIR}/results/{RUN_NAME}"
 PLOTS_DIR = f"{EXP_DIR}/plots/{RUN_NAME}"

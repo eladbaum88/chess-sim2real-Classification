@@ -11,7 +11,10 @@ evaluation deliverable at [`../submission/checkpoints/best_real.pt`](../submissi
 so `predict_board` runs offline with no download.
 
 The runs are catalogued below; download a run's `.pt` from the link above to
-reproduce its evaluation. The architecture is **DINOv2 ViT-S/14 + a linear
+reproduce its evaluation. Locally, weights are organised one folder per run —
+`checkpoints/<run_name>/{best_real.pt, latest.pt, best_synth_monitor.pt, ...}`
+(the dino training/eval scripts read and write here) — but the `.pt` files
+themselves are gitignored. The architecture is **DINOv2 ViT-S/14 + a linear
 13-class head** (~22M params) unless noted. Per-run training code lives under
 [`../training/dino/`](../training/dino).
 

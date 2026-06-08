@@ -22,7 +22,7 @@ from rescan_checkpoint_selection import (
 )
 CLASS_SHORT = ["wP", "wR", "wN", "wB", "wQ", "wK", "bP", "bR", "bN", "bB", "bQ", "bK", "empty"]
 EMBED_DIM = 384
-EXP_DIR = f"{PROJECT_ROOT}/dino"
+EXP_DIR = f"{PROJECT_ROOT}/training/dino"
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--run_name", required=True)
@@ -33,7 +33,7 @@ INPUT = args.input_size
 assert INPUT % 14 == 0, f"--input_size must be divisible by 14; got {INPUT}"
 
 ckpt_name = args.ckpt or ("best_synth.pt" if "zeroshot" in args.run_name else "best_real.pt")
-CKPT = f"{EXP_DIR}/checkpoints/{args.run_name}/{ckpt_name}"
+CKPT = f"{PROJECT_ROOT}/checkpoints/{args.run_name}/{ckpt_name}"
 OUT = f"{EXP_DIR}/results/{args.run_name}/games_2_6_eval.json"
 
 _abs = os.path.realpath(OUT)

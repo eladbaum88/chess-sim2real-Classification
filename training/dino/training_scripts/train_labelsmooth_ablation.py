@@ -90,7 +90,7 @@ def _parse_args():
                    help="Phase-B backbone LR (default 1e-5; ViT FT is fragile). Unused for linprobe.")
     p.add_argument("--weight_decay", type=float, default=0.05)
     p.add_argument("--zeroshot_ckpt", type=str,
-                   default="/home/eladbaum/chess_project/training/dino/checkpoints/dino_zeroshot/best_synth.pt",
+                   default="/home/eladbaum/chess_project/checkpoints/dino_zeroshot/best_synth.pt",
                    help="source weights for --mode stage3.")
     # Split flags — defaults reproduce the original stage3/stage5 split byte-identically.
     p.add_argument("--train_pgn_games", type=str, default="4,5",
@@ -177,7 +177,7 @@ SYNTH_DATASET_DIR = f"{PROJECT_ROOT}/data/dataset_v1/images"
 SYNTH_MANIFEST_PATH = f"{PROJECT_ROOT}/scripts/manifest.csv"
 SYNTH_CORNERS_PATH = f"{PROJECT_ROOT}/scripts/corners.json"
 
-EXP_DIR = f"{PROJECT_ROOT}/dino"
+EXP_DIR = f"{PROJECT_ROOT}/training/dino"
 if ARGS.output_root:
     # Self-contained ablation tree: {output_root}/{checkpoints,results,plots}/ (no per-run subdir).
     _ROOT = ARGS.output_root if os.path.isabs(ARGS.output_root) else f"{PROJECT_ROOT}/{ARGS.output_root}"
@@ -185,7 +185,7 @@ if ARGS.output_root:
     RESULTS_DIR = f"{_ROOT}/results"
     PLOTS_DIR = f"{_ROOT}/plots"
 else:
-    CHECKPOINTS_DIR = f"{EXP_DIR}/checkpoints/{RUN_NAME}"
+    CHECKPOINTS_DIR = f"{PROJECT_ROOT}/checkpoints/{RUN_NAME}"
     RESULTS_DIR = f"{EXP_DIR}/results/{RUN_NAME}"
     PLOTS_DIR = f"{EXP_DIR}/plots/{RUN_NAME}"
 PREDS_DIR = f"{RESULTS_DIR}/predictions"
