@@ -22,8 +22,8 @@ ResNet-18: SGD + two-phase freeze. ConvNeXt-Tiny (~27.8M): AdamW + cosine + Conv
 
 - **synth-only (zero-shot)** (`dino_zeroshot`): AdamW, lr_head=0.0001, lr_backbone=1e-05, input=224x224 (256 tokens), epochs=10, select synth_val @ ep 10, load=hub:dinov2_vits14.
 
-- **real fine-tune (Stage 3)** (`dino_stage3`): AdamW, lr_head=0.0001, lr_backbone=1e-05, input=224x224 (256 tokens), epochs=20, select game7_real_val @ ep 7, load=hub:dinov2_vits14.
+- **real fine-tune (Stage 3)** (`dino_fine_tuned`): AdamW, lr_head=0.0001, lr_backbone=1e-05, input=224x224 (256 tokens), epochs=20, select game7_real_val @ ep 7, load=hub:dinov2_vits14.
 
-- **combined (Stage 5)** (`dino_stage5`): AdamW, lr_head=0.0001, lr_backbone=1e-05, input=224x224 (256 tokens), epochs=20, select game7_real_val @ ep 19, load=hub:dinov2_vits14.
+- **combined (Stage 5)** (`dino_combined`): AdamW, lr_head=0.0001, lr_backbone=1e-05, input=224x224 (256 tokens), epochs=20, select game7_real_val @ ep 19, load=hub:dinov2_vits14.
 
-- **linear-probe (frozen DINO)** (`dino_linprobe`): AdamW, lr_head=0.0001, lr_backbone=frozen (linprobe), input=224x224 (256 tokens), epochs=20, select game7_real_val @ ep 18, load=hub:dinov2_vits14.
+- **linear-probe (frozen DINO)** (`dino_combined_linprob`): AdamW, lr_head=0.0001, lr_backbone=frozen (linprobe), input=224x224 (256 tokens), epochs=20, select game7_real_val @ ep 18, load=hub:dinov2_vits14.

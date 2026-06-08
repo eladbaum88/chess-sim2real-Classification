@@ -6,7 +6,7 @@ DINOv2 ViT-S/14 model, and inserts the resize-to-INPUT before ImageNet-normalize
 loop (the single DINO change).
 
 Usage:
-  python eval_games_2_6.py --run_name dino_stage3 [--ckpt best_real.pt] [--input_size 224]
+  python eval_games_2_6.py --run_name dino_fine_tuned [--ckpt best_real.pt] [--input_size 224]
 """
 import sys, os, json, argparse
 sys.path.insert(0, "/home/eladbaum/chess_project")

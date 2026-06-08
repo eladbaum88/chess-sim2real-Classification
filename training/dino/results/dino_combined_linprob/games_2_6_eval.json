@@ -1,0 +1,44 @@
+{
+  "model": "DINOv2-ViT-S/14 linprobe",
+  "run_name": "dino_combined_linprob",
+  "source_weights": "DINOv2-pretrained",
+  "input_size": 224,
+  "test_partition": [
+    "game2",
+    "game6"
+  ],
+  "eval_path": "verbatim rescan RealGameDataset + metrics; resize-to-INPUT then ImageNet-normalize in dino_eval_loader (same crops/metric as ResNet/ConvNeXt, + DINO resize)",
+  "n_squares": 10816,
+  "per_square_acc": 0.7556397928994083,
+  "piece_only_acc": 0.41970074812967584,
+  "empty_acc": 0.9535703790772847,
+  "per_class_acc": {
+    "wP": 0.6354978354978355,
+    "wR": 0.5904761904761905,
+    "wN": 0.4437869822485207,
+    "wB": 0.08045977011494253,
+    "wQ": 0.015151515151515152,
+    "wK": 0.33727810650887574,
+    "bP": 0.38320209973753283,
+    "bR": 0.38207547169811323,
+    "bN": 0.4269005847953216,
+    "bB": 0.3142857142857143,
+    "bQ": 0.022900763358778626,
+    "bK": 0.15976331360946747,
+    "empty": 0.9535703790772847
+  },
+  "per_game": {
+    "game2": {
+      "n_frames": 77,
+      "n_squares": 4928,
+      "per_square": 0.828125,
+      "piece_only": 0.6489422527158376
+    },
+    "game6": {
+      "n_frames": 92,
+      "n_squares": 5888,
+      "per_square": 0.6949728260869565,
+      "piece_only": 0.24237063246351173
+    }
+  }
+}

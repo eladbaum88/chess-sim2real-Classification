@@ -16,7 +16,7 @@ Class encoding (Project 2 — 13 classes, NO out-of-distribution class 13):
     12 Empty
 
 Model: DINOv2 ViT-S/14 backbone (vendored, see ./dinov2_vendor) + Linear(384, 13)
-head, checkpoint `dino_combindedGame6/best_real.pt` (combined synthetic+real
+head, checkpoint `dino_combined_Game6boosted/best_real.pt` (combined synthetic+real
 training). The board is localised with the chesscog corner detector, warped to a
 top-down 500x500 view, and each of the 64 squares is classified from a 100x100
 crop resized to 224x224 with ImageNet normalisation — exactly the training-time

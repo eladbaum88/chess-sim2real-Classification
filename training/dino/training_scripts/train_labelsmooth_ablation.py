@@ -27,9 +27,9 @@ READ-ONLY, protected by a hard write-guard.
 
 Usage:
   python train.py --mode zeroshot --run_name dino_zeroshot
-  python train.py --mode stage3   --run_name dino_stage3
-  python train.py --mode stage5   --run_name dino_stage5
-  python train.py --mode linprobe --run_name dino_linprobe
+  python train.py --mode stage3   --run_name dino_fine_tuned
+  python train.py --mode stage5   --run_name dino_combined
+  python train.py --mode linprobe --run_name dino_combined_linprob
 """
 # %% [Cell 1 — Imports + args + seeds]
 import sys
@@ -707,7 +707,7 @@ print("\033[92m✓ Cell 9 — Smoke test — OK\033[0m")
 # ABLATION: label smoothing on the TRAINING criterion only (eval crit above stays plain CE).
 criterion = nn.CrossEntropyLoss(label_smoothing=LABEL_SMOOTHING)
 
-# === CONFIG-IDENTITY GATE vs dino_combindedGame6 (single variable = label_smoothing) ==========
+# === CONFIG-IDENTITY GATE vs dino_combined_Game6boosted (single variable = label_smoothing) ==========
 # Print + assert; abort before training if anything diverges. The one consequence of grad-accum that
 # must be proven equivalent to the baseline's batch-64 run is optimizer-steps-per-epoch.
 def _ceil_div(a, b):
@@ -716,7 +716,7 @@ _BASELINE_BATCH = 64                                          # combined_game6 r
 _eff_batch = BATCH_SIZE * GRAD_ACCUM
 _baseline_steps = _ceil_div(NUM_SAMPLES_PER_EPOCH, _BASELINE_BATCH)   # ceil(100000/64) = 1563
 _this_steps = _ceil_div(len(train_loader), GRAD_ACCUM)               # ceil(3125/2)   = 1563
-print("\n\033[96m=== CONFIG-IDENTITY GATE (vs dino_combindedGame6) ===\033[0m")
+print("\n\033[96m=== CONFIG-IDENTITY GATE (vs dino_combined_Game6boosted) ===\033[0m")
 print(f"  [1] train-CE label_smoothing = {criterion.label_smoothing}  (ablation variable; baseline 0.0)")
 print(f"      eval/selection crit = plain nn.CrossEntropyLoss() (label_smoothing=0.0) by construction")
 print(f"  [2] effective batch = {BATCH_SIZE} x {GRAD_ACCUM}accum = {_eff_batch}")
@@ -780,7 +780,7 @@ best_synth_monitor_acc = -1.0
 epochs_since_best = 0
 stop_reason = "completed_all_epochs"
 
-# === DIAGNOSTIC ONLY (dino_combindedGame6 selection-confound study) ============
+# === DIAGNOSTIC ONLY (dino_combined_Game6boosted selection-confound study) ============
 # game7 is the HELD-OUT TEST. Here it is evaluated every epoch PURELY for post-hoc
 # curve analysis and a separate best-by-game7 checkpoint. It NEVER feeds selection,
 # gradients, or early-stopping: select_acc stays game2_real_val, the optimizer never

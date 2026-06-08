@@ -6,9 +6,9 @@ piece-only / empty accuracy against the ground-truth FENs. This is the end-to-en
 round trip that validates the wiring (notably the RGB->BGR conversion and the
 resize/normalise order): if those are wrong, accuracy collapses.
 
-Expected on game7 (truly held out of dino_combindedGame6 training):
+Expected on game7 (truly held out of dino_combined_Game6boosted training):
     per-square ~= 0.9858,  piece-only ~= 0.9708
-matching dino/results/dino_combindedGame6/heldout_game7_eval.json.
+matching dino/results/dino_combined_Game6boosted/heldout_game7_eval.json.
 
 Usage:
     python evaluate.py --gt   /path/to/gt.csv \

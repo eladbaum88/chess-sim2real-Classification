@@ -27,9 +27,9 @@ READ-ONLY, protected by a hard write-guard.
 
 Usage:
   python train.py --mode zeroshot --run_name dino_zeroshot
-  python train.py --mode stage3   --run_name dino_stage3
-  python train.py --mode stage5   --run_name dino_stage5
-  python train.py --mode linprobe --run_name dino_linprobe
+  python train.py --mode stage3   --run_name dino_fine_tuned
+  python train.py --mode stage5   --run_name dino_combined
+  python train.py --mode linprobe --run_name dino_combined_linprob
 """
 # %% [Cell 1 — Imports + args + seeds]
 import sys
@@ -708,7 +708,7 @@ best_synth_monitor_acc = -1.0
 epochs_since_best = 0
 stop_reason = "completed_all_epochs"
 
-# === DIAGNOSTIC ONLY (dino_combindedGame6 selection-confound study) ============
+# === DIAGNOSTIC ONLY (dino_combined_Game6boosted selection-confound study) ============
 # game7 is the HELD-OUT TEST. Here it is evaluated every epoch PURELY for post-hoc
 # curve analysis and a separate best-by-game7 checkpoint. It NEVER feeds selection,
 # gradients, or early-stopping: select_acc stays game2_real_val, the optimizer never
@@ -936,7 +936,7 @@ plot_confusion_matrix(confusion_matrix_np(preds, labels),
 print(f"\n=== HELD-OUT {_test_label} — DINOv2 {MODE} ===")
 print(f"  per-square={persq:.4f}  piece-only={piece:.4f}  empty={empty:.4f}")
 
-# === SELECTION-CONFOUND CHECK (dino_combindedGame6) ===========================
+# === SELECTION-CONFOUND CHECK (dino_combined_Game6boosted) ===========================
 # (a) game2-SELECTED checkpoint (best_real.pt, already loaded above) on game7 = persq/piece.
 # (b) best-by-game7 DIAGNOSTIC checkpoint on game7. Compare; flag if (b) >> (a).
 sel_g7_persq, sel_g7_piece, sel_epoch = persq, piece, int(best_ckpt["epoch"])

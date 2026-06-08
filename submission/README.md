@@ -31,7 +31,7 @@ Output values are always in `[0, 12]`; `13`/`14` never appear (those are Project
 ## Model
 
 - **Architecture:** DINOv2 ViT-S/14 backbone (384-d CLS embedding) + `Linear(384, 13)` head (~22M params).
-- **Checkpoint:** `checkpoints/best_real.pt` — run `dino_combindedGame6`, epoch 16,
+- **Checkpoint:** `checkpoints/best_real.pt` — run `dino_combined_Game6boosted`, epoch 16,
   combined synthetic + real training (dataset_v1 synthetic + real games 4/5/6 + manual
   frames), selected on game2 real-validation accuracy.
 - **Preprocessing (exactly as trained):** detect corners → warp → 100×100 per-square
@@ -85,7 +85,7 @@ so the model is built with **no network call** and all weights come from the bun
 | `predict_board.py` | **Required entry point** — `predict_board(image)` + model + preprocessing |
 | `woelflein_crops.py` | Corner detection, warp, per-square crop (chesscog port, MIT) |
 | `dinov2_vendor/` | Vendored DINOv2 ViT-S/14 model code (offline architecture build) |
-| `checkpoints/best_real.pt` | Trained weights (`dino_combindedGame6`) |
+| `checkpoints/best_real.pt` | Trained weights (`dino_combined_Game6boosted`) |
 | `fen_to_grid.py`, `view_orientations.py` | FEN → label grid (used by `evaluate.py` only) |
 | `evaluate.py` | Optional accuracy check against ground-truth FENs |
 | `requirements.txt` | Dependencies |

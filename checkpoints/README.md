@@ -24,22 +24,22 @@ slice). The zero-shot run has `best_synth.pt` instead of `best_real.pt`.
 | Run | Regime | Key checkpoint | Held-out test | Per-square | Piece-only |
 |-----|--------|----------------|---------------|-----------:|-----------:|
 | `dino_zeroshot` | Synthetic-only (no real data) | `best_synth.pt` | games 2,6 | 0.7800 | 0.5479 |
-| `dino_linprobe` | Frozen backbone, linear probe on combined data | `best_real.pt` | games 2,6 | 0.7556 | 0.4197 |
-| `dino_stage3` | Sequential fine-tune (zero-shot → real) | `best_real.pt` | games 2,6 | 0.9588 | 0.8908 |
-| `dino_stage3_5` | Stage-3 variant split (val = game6) | `best_real.pt` | game 7 | 0.9750 | 0.9485 |
-| `dino_stage5` | Combined synth+real (standard split) | `best_real.pt` | games 2,6 | 0.9761 | 0.9377 |
-| `dino_stage5_5` | Combined, variant split (train 4/5/2, val game6) | `best_real.pt` | game 7 | 0.9849 | 0.9689 |
-| **`dino_combindedGame6`** | **Combined, train 4/5/6, val game2 — SHIPPED** | **`best_real.pt`** | **game 7** | **0.9858** | **0.9708** |
+| `dino_combined_linprob` | Frozen backbone, linear probe on combined data | `best_real.pt` | games 2,6 | 0.7556 | 0.4197 |
+| `dino_fine_tuned` | Sequential fine-tune (zero-shot → real) | `best_real.pt` | games 2,6 | 0.9588 | 0.8908 |
+| `dino_fine_tuned_Game2boosted` | Stage-3 variant split (val = game6) | `best_real.pt` | game 7 | 0.9750 | 0.9485 |
+| `dino_combined` | Combined synth+real (standard split) | `best_real.pt` | games 2,6 | 0.9761 | 0.9377 |
+| `dino_combined_Game2boosted` | Combined, variant split (train 4/5/2, val game6) | `best_real.pt` | game 7 | 0.9849 | 0.9689 |
+| **`dino_combined_Game6boosted`** | **Combined, train 4/5/6, val game2 — SHIPPED** | **`best_real.pt`** | **game 7** | **0.9858** | **0.9708** |
 
-`dino_combindedGame6/best_real.pt` (epoch 16) is the checkpoint used by the graded
+`dino_combined_Game6boosted/best_real.pt` (epoch 16) is the checkpoint used by the graded
 `predict_board`; it is the strongest generaliser on the only game held entirely out
 of every combined run (game 7).
 
 ### Ablations
 | Run | What it isolates |
 |-----|------------------|
-| `ablation_realOnly` | Training on real frames only (no synthetic) — see [`../training/dino/ablation_realOnly`](../training/dino/ablation_realOnly) |
-| `ablation_LabelSmoothing` | Label-smoothing on the combined recipe — see [`../training/dino/ablation_LabelSmoothing`](../training/dino/ablation_LabelSmoothing) |
+| `dino_realOnly` | Training on real frames only (no synthetic) — see [`../training/dino/dino_realOnly`](../training/dino/dino_realOnly) |
+| `dino_combined_Game6boosted_ablation_LabelSmoothing` | Label-smoothing on the combined recipe — see [`../training/dino/dino_combined_Game6boosted_ablation_LabelSmoothing`](../training/dino/dino_combined_Game6boosted_ablation_LabelSmoothing) |
 
 ## Other architectures (baselines / comparison)
 

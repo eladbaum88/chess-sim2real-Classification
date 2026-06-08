@@ -27,9 +27,9 @@ READ-ONLY, protected by a hard write-guard.
 
 Usage:
   python train.py --mode zeroshot --run_name dino_zeroshot
-  python train.py --mode stage3   --run_name dino_stage3
-  python train.py --mode stage5   --run_name dino_stage5
-  python train.py --mode linprobe --run_name dino_linprobe
+  python train.py --mode stage3   --run_name dino_fine_tuned
+  python train.py --mode stage5   --run_name dino_combined
+  python train.py --mode linprobe --run_name dino_combined_linprob
 """
 # %% [Cell 1 — Imports + args + seeds]
 import sys

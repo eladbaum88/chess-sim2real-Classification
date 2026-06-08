@@ -2,7 +2,7 @@
 
 Third backbone in the sim-to-real comparison (after ResNet-18 and ConvNeXt-Tiny). Synth-only
 zero-shot baseline: trained on the full synthetic `dataset_v1` from DINOv2-pretrained weights,
-then evaluated on real boards. This checkpoint is the source `dino_stage3` fine-tunes from.
+then evaluated on real boards. This checkpoint is the source `dino_fine_tuned` fine-tunes from.
 
 ## Setup
 
@@ -69,7 +69,7 @@ bK 0.000, wK 0.071, wQ 0.205 weak — knights/kings/queens hardest zero-shot (sa
 
 +0.3526 (synth_monitor 0.6473 → 0.9999). This is **acquisition**, not forgetting — the source is
 DINOv2-pretrained (chess-naive), so the model *gains* synth ability. True forgetting is measured at
-`dino_stage3` (source = this synth checkpoint).
+`dino_fine_tuned` (source = this synth checkpoint).
 
 ## Artifacts
 
@@ -79,6 +79,6 @@ synth_monitor_results.json, predictions/*.npy}`; `plots/dino_zeroshot/{training_
 
 ## Next
 
-`dino_stage3` — sequential fine-tune from `best_synth.pt` (epoch 10) on real data (30 manual +
+`dino_fine_tuned` — sequential fine-tune from `best_synth.pt` (epoch 10) on real data (30 manual +
 game4 + game5), select on game7, patience-6, backbone 1e-5. The 1e-5 fragility caution genuinely
 applies there (~20k-square real set); watch train-acc trajectory for underfit vs over-adaptation.

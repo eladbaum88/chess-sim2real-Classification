@@ -122,8 +122,8 @@ game7 alone (~3,520 sq) and must **not** be placed in the games-2/6 columns abov
 
 | Model | game7 per-sq | game7 piece-only | Verdict |
 |-------|:------------:|:----------------:|---------|
-| `dino_stage3_5` (sequential) | 0.9750 | 0.9485 | — |
-| `dino_stage5_5` (combined) 🏆 | **0.9849** | **0.9689** | combined wins by +0.020 piece-only |
+| `dino_fine_tuned_Game2boosted` (sequential) | 0.9750 | 0.9485 | — |
+| `dino_combined_Game2boosted` (combined) 🏆 | **0.9849** | **0.9689** | combined wins by +0.020 piece-only |
 
 Confirms the combined > sequential pattern on a fresh split; the win is driven by the synth half
 recovering the bishop classes (wB +0.21, bB +0.14).

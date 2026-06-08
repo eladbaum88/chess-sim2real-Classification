@@ -16,9 +16,9 @@ RESNET = {"zeroshot": (0.5138, None), "stage3": (0.9085, 0.7556), "stage5": (0.9
 CONVNEXT = {"zeroshot": (0.7960, 0.4621), "stage3": (0.9468, 0.8589), "stage5": (0.9557, 0.8828)}
 # rows: (label, dino_run, regime_key_for_refs or None for linprobe)
 ROWS = [("synth-only (zero-shot)", "dino_zeroshot", "zeroshot"),
-        ("real fine-tune (Stage 3)", "dino_stage3", "stage3"),
-        ("combined (Stage 5)", "dino_stage5", "stage5"),
-        ("linear-probe (frozen DINO)", "dino_linprobe", None)]
+        ("real fine-tune (Stage 3)", "dino_fine_tuned", "stage3"),
+        ("combined (Stage 5)", "dino_combined", "stage5"),
+        ("linear-probe (frozen DINO)", "dino_combined_linprob", None)]
 CLASS_SHORT = ["wP", "wR", "wN", "wB", "wQ", "wK", "bP", "bR", "bN", "bB", "bQ", "bK", "empty"]
 
 

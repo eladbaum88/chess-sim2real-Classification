@@ -10,11 +10,11 @@ games-2/6 eval — so numbers are directly comparable. Only the documented DINO 
 | run | style | source | data | sampler | selection |
 |---|---|---|---|---|---|
 | `dino_zeroshot` | synth-only | DINOv2 pretrained | full dataset_v1 synth | shuffle (90/10 by-image) | synth val |
-| `dino_stage3` | sequential FT | `dino_zeroshot/best_synth.pt` | 30 manual + game4 + game5 | shuffle | game7 |
-| `dino_stage5` | combined | DINOv2 pretrained | synth + 30 manual + game4 + game5 | Weighted 50/50, 100k/epoch | game7 |
-| `dino_linprobe` | linear probe | DINOv2 pretrained | combined (same as stage5) | Weighted 50/50, 100k/epoch | game7 |
+| `dino_fine_tuned` | sequential FT | `dino_zeroshot/best_synth.pt` | 30 manual + game4 + game5 | shuffle | game7 |
+| `dino_combined` | combined | DINOv2 pretrained | synth + 30 manual + game4 + game5 | Weighted 50/50, 100k/epoch | game7 |
+| `dino_combined_linprob` | linear probe | DINOv2 pretrained | combined (same as stage5) | Weighted 50/50, 100k/epoch | game7 |
 
-`dino_linprobe` keeps the backbone **frozen for all epochs** (head only) — the canonical
+`dino_combined_linprob` keeps the backbone **frozen for all epochs** (head only) — the canonical
 DINOv2 usage and the cleanest DINO result; the CNNs have no equivalent.
 
 ## What differs from convnext (everything else identical)
@@ -48,9 +48,9 @@ cd /home/eladbaum/chess_project/training/dino
 
 $PY training_scripts/confirm_dino.py                                  # step 0 (no training)
 $PY -u training_scripts/train.py --mode zeroshot --run_name dino_zeroshot
-$PY -u training_scripts/train.py --mode stage3   --run_name dino_stage3
-$PY -u training_scripts/train.py --mode stage5   --run_name dino_stage5
-$PY -u training_scripts/train.py --mode linprobe --run_name dino_linprobe
+$PY -u training_scripts/train.py --mode stage3   --run_name dino_fine_tuned
+$PY -u training_scripts/train.py --mode stage5   --run_name dino_combined
+$PY -u training_scripts/train.py --mode linprobe --run_name dino_combined_linprob
 $PY build_report.py
 ```
 

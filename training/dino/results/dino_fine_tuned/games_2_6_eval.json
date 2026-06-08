@@ -1,0 +1,44 @@
+{
+  "model": "DINOv2-ViT-S/14 stage3",
+  "run_name": "dino_fine_tuned",
+  "source_weights": "/home/eladbaum/chess_project/dino/checkpoints/dino_zeroshot/best_synth.pt",
+  "input_size": 224,
+  "test_partition": [
+    "game2",
+    "game6"
+  ],
+  "eval_path": "verbatim rescan RealGameDataset + metrics; resize-to-INPUT then ImageNet-normalize in dino_eval_loader (same crops/metric as ResNet/ConvNeXt, + DINO resize)",
+  "n_squares": 10816,
+  "per_square_acc": 0.9587647928994083,
+  "piece_only_acc": 0.8907730673316708,
+  "empty_acc": 0.9988245665589186,
+  "per_class_acc": {
+    "wP": 0.9930735930735931,
+    "wR": 0.9904761904761905,
+    "wN": 0.7810650887573964,
+    "wB": 0.4425287356321839,
+    "wQ": 0.6439393939393939,
+    "wK": 0.8994082840236687,
+    "bP": 0.994750656167979,
+    "bR": 0.9716981132075472,
+    "bN": 0.9181286549707602,
+    "bB": 0.45714285714285713,
+    "bQ": 0.366412213740458,
+    "bK": 0.8461538461538461,
+    "empty": 0.9988245665589186
+  },
+  "per_game": {
+    "game2": {
+      "n_frames": 77,
+      "n_squares": 4928,
+      "per_square": 0.9908685064935064,
+      "piece_only": 0.9765580331618068
+    },
+    "game6": {
+      "n_frames": 92,
+      "n_squares": 5888,
+      "per_square": 0.9318953804347826,
+      "piece_only": 0.8244139761167625
+    }
+  }
+}

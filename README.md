@@ -49,7 +49,7 @@ failure), and runs offline — see [`submission/README.md`](submission/README.md
 ## Model provenance
 
 The shipped checkpoint is `submission/checkpoints/best_real.pt` — DINOv2 ViT-S/14 +
-linear head, from the `dino_combindedGame6` run (combined synthetic + real training,
+linear head, from the `dino_combined_Game6boosted` run (combined synthetic + real training,
 epoch 16, selected on game2 real-validation). On **game7** (held entirely out of
 training) it scores **per-square 0.9858 / piece-only 0.9708**.
 
@@ -68,8 +68,8 @@ Each `training/<arch>/` folder is runnable on its own; see its `README.md`. Exam
 
 ```bash
 cd training/dino
-python training_scripts/train.py --mode stage5 --run_name dino_stage5
-python eval_games_2_6.py --run_name dino_stage5
+python training_scripts/train.py --mode stage5 --run_name dino_combined
+python eval_games_2_6.py --run_name dino_combined
 ```
 
 Training reads the synthetic/real datasets and writes checkpoints under each run's
