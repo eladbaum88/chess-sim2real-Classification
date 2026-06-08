@@ -1,22 +1,17 @@
 # Checkpoints
 
-Trained model weights for the project. To keep the repository lightweight, the
-`.pt` weight files are **not committed to git** — they are hosted externally and
-downloaded on demand:
+Trained model weights for the project. Each run's **`best_real.pt`** (its selected
+checkpoint) **is committed to git**, one folder per run; the other variants
+(`latest.pt`, `best_synth_monitor.pt`, `best_synth.pt`) are gitignored and, with the
+full datasets, hosted on the shared Drive:
 
-> **Weights (all runs):** _<add Google Drive link here>_
+> **Full weights + datasets:** _<add Google Drive link here>_
 
-The one exception is the graded checkpoint
-[`dino_combined_Game6boosted/best_real.pt`](dino_combined_Game6boosted) — it **is** committed
-to git so `evaluation/predict_board.py` loads it offline with no download.
-
-The runs are catalogued below; download a run's `.pt` from the link above to
-reproduce its evaluation. Locally, weights are organised one folder per run —
-`checkpoints/<run_name>/{best_real.pt, latest.pt, best_synth_monitor.pt, ...}`
-(the dino training/eval scripts read and write here) — but the `.pt` files
-themselves are gitignored. The architecture is **DINOv2 ViT-S/14 + a linear
-13-class head** (~22M params) unless noted. Per-run training code lives under
-[`../training/dino/`](../training/dino).
+`evaluation/predict_board.py` loads `dino_combined_Game6boosted/best_real.pt` (the graded
+checkpoint) from here, offline with no download. The architecture is **DINOv2 ViT-S/14 +
+a linear 13-class head** (~22M params) unless noted; per-run training code lives under
+[`../training/dino/`](../training/dino). (`dino_zeroshot` is synth-only and has
+`best_synth.pt` instead of `best_real.pt`.)
 
 ## DINOv2 runs
 

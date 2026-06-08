@@ -48,10 +48,10 @@ Thumbs.db
 *.safetensors
 *.onnx
 
-# ---- KEEP the graded checkpoint (negate the *.pt ignore above) ----
-# Single committed weight; evaluation/predict_board.py loads it from here.
-!checkpoints/dino_combined_Game6boosted/
-!checkpoints/dino_combined_Game6boosted/best_real.pt
+# ---- KEEP each dino run's best_real.pt (negate the *.pt ignore above) ----
+# evaluation/predict_board.py loads dino_combined_Game6boosted/best_real.pt;
+# the other runs' best_real.pt are committed for reference/comparison.
+!checkpoints/*/best_real.pt
 
 # ---- diagnostic/report-figure scripts: kept locally, not part of the submission ----
 analysis/
