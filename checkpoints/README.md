@@ -10,8 +10,8 @@ The one exception is the graded checkpoint, which is bundled directly with the
 evaluation deliverable at [`../submission/checkpoints/best_real.pt`](../submission/checkpoints)
 so `predict_board` runs offline with no download.
 
-Each subfolder below is one training run; drop the downloaded `.pt` into its folder
-to reproduce that run's evaluation. The architecture is **DINOv2 ViT-S/14 + a linear
+The runs are catalogued below; download a run's `.pt` from the link above to
+reproduce its evaluation. The architecture is **DINOv2 ViT-S/14 + a linear
 13-class head** (~22M params) unless noted. Per-run training code lives under
 [`../training/dino/`](../training/dino).
 
