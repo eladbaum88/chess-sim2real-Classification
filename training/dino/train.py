@@ -2,8 +2,8 @@
 DINOv2 ViT-S/14 sim-to-real training. One script, four styles via --mode:
 
   zeroshot : synth-only from DINOv2-pretrained; select on synth val -> best_synth.pt.
-  stage3   : sequential FT from dino_zeroshot best_synth on real (30 manual+game4+game5).
-  stage5   : combined synth+real from DINOv2-pretrained, WeightedRandomSampler 50/50.
+  fine_tuned   : sequential FT from dino_zeroshot best_synth on real (30 manual+game4+game5).
+  combined   : combined synth+real from DINOv2-pretrained, WeightedRandomSampler 50/50.
   linprobe : backbone frozen all epochs, head only, on combined synth+real 50/50.
 
 Datasets yield 100x100 crops; a Resize to --input_size (default 224, must be %14==0) is
@@ -11,8 +11,8 @@ applied at the model boundary before ImageNet-normalize. backbone LR default 1e-
 
 Usage:
   python train.py --mode zeroshot --run_name dino_zeroshot
-  python train.py --mode stage3   --run_name dino_fine_tuned
-  python train.py --mode stage5   --run_name dino_combined
+  python train.py --mode fine_tuned   --run_name dino_fine_tuned
+  python train.py --mode combined   --run_name dino_combined
   python train.py --mode linprobe --run_name dino_combined_linprob
 """
 import sys
@@ -56,7 +56,7 @@ from rescan_checkpoint_selection import (
 
 def _parse_args():
     p = argparse.ArgumentParser(description="DINOv2 ViT-S/14 — 4 training styles via --mode.")
-    p.add_argument("--mode", required=True, choices=["zeroshot", "stage3", "stage5", "linprobe"])
+    p.add_argument("--mode", required=True, choices=["zeroshot", "fine_tuned", "combined", "linprobe"])
     p.add_argument("--run_name", required=True, type=str,
                    help="output subdir under dino/{checkpoints,results,plots}/")
     p.add_argument("--seed", type=int, default=42)
@@ -72,8 +72,8 @@ def _parse_args():
     p.add_argument("--weight_decay", type=float, default=0.05)
     p.add_argument("--zeroshot_ckpt", type=str,
                    default="/home/eladbaum/chess_project/checkpoints/dino_zeroshot/best_synth.pt",
-                   help="source weights for --mode stage3.")
-    # Split flags; defaults reproduce the original stage3/stage5 split.
+                   help="source weights for --mode fine_tuned.")
+    # Split flags; defaults reproduce the original fine_tuned/combined split.
     p.add_argument("--train_pgn_games", type=str, default="4,5",
                    help="comma-sep PGN games added to real training.")
     p.add_argument("--val_game", type=str, default="game7",
@@ -94,8 +94,8 @@ assert INPUT_SIZE % 14 == 0, f"--input_size must be divisible by 14 (ViT-S/14); 
 # Per-mode defaults (overridable via CLI). backbone LR 1e-5; ViT FT is fragile.
 _DEFAULTS = {
     "zeroshot": dict(epochs=10, warmup_epochs=1, patience=0, lr_backbone=1e-5),
-    "stage3":   dict(epochs=20, warmup_epochs=2, patience=6, lr_backbone=1e-5),
-    "stage5":   dict(epochs=20, warmup_epochs=2, patience=6, lr_backbone=1e-5),
+    "fine_tuned":   dict(epochs=20, warmup_epochs=2, patience=6, lr_backbone=1e-5),
+    "combined":   dict(epochs=20, warmup_epochs=2, patience=6, lr_backbone=1e-5),
     "linprobe": dict(epochs=20, warmup_epochs=0, patience=6, lr_backbone=1e-5),
 }[MODE]
 NUM_EPOCHS = ARGS.epochs if ARGS.epochs is not None else _DEFAULTS["epochs"]
@@ -163,8 +163,8 @@ os.makedirs(PREDS_DIR, exist_ok=True)
 
 SYNTH_MONITOR_FRAC = 0.05
 NUM_WORKERS = 4
-SYNTH_BATCH_FRAC = 0.5            # stage5/linprobe: target synth fraction per batch
-NUM_SAMPLES_PER_EPOCH = 100_000   # stage5/linprobe: sampler draws/epoch
+SYNTH_BATCH_FRAC = 0.5            # combined/linprobe: target synth fraction per batch
+NUM_SAMPLES_PER_EPOCH = 100_000   # combined/linprobe: sampler draws/epoch
 
 IMAGENET_MEAN = torch.tensor([0.485, 0.456, 0.406]).view(3, 1, 1)
 IMAGENET_STD = torch.tensor([0.229, 0.224, 0.225]).view(3, 1, 1)
@@ -385,10 +385,10 @@ else:
     real_train_dataset = ConcatDataset([manual_train_dataset] + pgn_train_datasets)
     print(f"real train (manual + game4 + game5): {len(real_train_dataset):,} squares")
 
-    if MODE == "stage3":
+    if MODE == "fine_tuned":
         train_dataset = real_train_dataset
         train_sampler = None
-    else:  # stage5/linprobe: combined synth+real, sampler 50/50
+    else:  # combined/linprobe: combined synth+real, sampler 50/50
         synth_train_dataset = ChessSquareDataset(synth_manifest, SYNTH_CORNERS_PATH,
                                                  dataset_dir=SYNTH_DATASET_DIR, transform=TRAIN_TRANSFORM)
         n_synth = len(synth_train_dataset)
@@ -482,16 +482,16 @@ def unfreeze_all(model):
         p.requires_grad = True
 
 
-SOURCE = {"zeroshot": "DINOv2-pretrained", "stage3": ARGS.zeroshot_ckpt,
-          "stage5": "DINOv2-pretrained", "linprobe": "DINOv2-pretrained"}[MODE]
+SOURCE = {"zeroshot": "DINOv2-pretrained", "fine_tuned": ARGS.zeroshot_ckpt,
+          "combined": "DINOv2-pretrained", "linprobe": "DINOv2-pretrained"}[MODE]
 model = build_model().to(DEVICE)
-if MODE == "stage3":
+if MODE == "fine_tuned":
     assert os.path.exists(ARGS.zeroshot_ckpt), (
-        f"stage3 source checkpoint not found: {ARGS.zeroshot_ckpt}. Run --mode zeroshot first.")
+        f"fine_tuned source checkpoint not found: {ARGS.zeroshot_ckpt}. Run --mode zeroshot first.")
     src = torch.load(ARGS.zeroshot_ckpt, map_location=DEVICE, weights_only=False)
     missing, unexpected = model.load_state_dict(src["model_state_dict"], strict=True)
     assert not missing and not unexpected, f"state_dict mismatch: missing={missing}, unexpected={unexpected}"
-    print(f"[stage3] loaded dino_zeroshot weights from {ARGS.zeroshot_ckpt} "
+    print(f"[fine_tuned] loaded dino_zeroshot weights from {ARGS.zeroshot_ckpt} "
           f"(epoch {src.get('epoch')}, synth_val_acc={src.get('synth_val_acc', float('nan'))})")
 else:
     print(f"[{MODE}] built DINOv2 ViT-S/14 ({DINO_LOAD_PATH}) + fresh head -> {NUM_CLASSES}")
@@ -625,7 +625,7 @@ PRE_SYNTH_MONITOR_ACC = evaluate(model, synth_monitor_loader)[1]
 PRE_REAL_VAL_ACC = evaluate(model, real_val_loader)[1]
 print(f"    synth_monitor (5% v1) before: {PRE_SYNTH_MONITOR_ACC:.4f}")
 print(f"    {VAL_GAME} real_val    before: {PRE_REAL_VAL_ACC:.4f}")
-if MODE == "stage3":
+if MODE == "fine_tuned":
     assert PRE_SYNTH_MONITOR_ACC > 0.95, (
         f"dino_zeroshot scored {PRE_SYNTH_MONITOR_ACC:.4f} on its own synth slice; expected >0.95.")
 else:
@@ -793,8 +793,8 @@ forgetting = {
     "forgetting_delta": sm_acc - PRE_SYNTH_MONITOR_ACC,
     "piece_only_acc": sm_piece, "loss": sm_loss,
     "per_class_acc": {CLASS_SHORT[c]: sm_per_class[c] for c in range(NUM_CLASSES)},
-    "note": ("Δ vs source weights. zeroshot/stage5/linprobe source=DINOv2-pretrained (~chance on "
-             "synth) so Δ is acquisition not forgetting; stage3 source=dino_zeroshot so Δ is true "
+    "note": ("Δ vs source weights. zeroshot/combined/linprobe source=DINOv2-pretrained (~chance on "
+             "synth) so Δ is acquisition not forgetting; fine_tuned source=dino_zeroshot so Δ is true "
              "forgetting. linprobe backbone is frozen so synth ability is fully retained."),
 }
 Path(f"{RESULTS_DIR}/synth_monitor_results.json").write_text(json.dumps(forgetting, indent=2))
@@ -884,10 +884,10 @@ recipe = {
                     else "jitter@0.7 -> shear@0.8(±8°) -> noise@0.5(std=0.015)",
     "selection_metric": SELECT_ON, "selected_epoch": int(best_select_epoch),
     "sampler": ("WeightedRandomSampler 50/50 synth/real, 100k draws/epoch"
-                if MODE in ("stage5", "linprobe") else "shuffle (natural distribution)"),
+                if MODE in ("combined", "linprobe") else "shuffle (natural distribution)"),
     "data": {"zeroshot": "full dataset_v1 synth (90/10 by-image split for synth-val selection)",
-             "stage3": "30 manual + game4 + game5 PGN (~323 frames real)",
-             "stage5": "dataset_v1 synth + 30 manual + game4 + game5 PGN (combined)",
+             "fine_tuned": "30 manual + game4 + game5 PGN (~323 frames real)",
+             "combined": "dataset_v1 synth + 30 manual + game4 + game5 PGN (combined)",
              "linprobe": "dataset_v1 synth + 30 manual + game4 + game5 PGN (combined, frozen backbone)"}[MODE],
     "split": {"train_manual_games": [8, 9, 10, 11], "train_pgn_games": TRAIN_PGN_GAMES,
               "val_game": VAL_GAME, "test_games": HELD_OUT_GAMES},
