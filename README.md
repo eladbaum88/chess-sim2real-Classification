@@ -1,5 +1,6 @@
 # Synthetic-to-Real Chessboard State Recognition
 
+This project recognizes the full state of a chessboard from a single photo, predicting the piece (or empty square) at every position. It was built with a focus on **synthetic-to-real transfer**: training a classifier mostly on rendered synthetic boards and measuring how well it generalizes to real chessboard photos.
 
 ## Overview
 
@@ -78,9 +79,6 @@ chess_project/
 └── demo/
     └── demo.py
 ```
-
-The **ConvNeXt** and **ResNet-18** comparison experiments and all diagnostic figures are kept on the shared Drive.
-
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ## Installation
@@ -195,3 +193,9 @@ Board localisation follows Wölflein & Arandjelović, *Determining Chess Game St
 Image* (J. Imaging 2021) — [chesscog](https://github.com/georg-wolflein/chesscog) (MIT).
 The backbone is Meta's DINOv2 (Apache-2.0); a minimal copy is vendored under
 `evaluation/dinov2_vendor/`.
+
+## Authors
+
+#### Elad Baumgarten, BSc
+#### Shmuel Avivi, BSc
+#### Yval Notkin, Bsc

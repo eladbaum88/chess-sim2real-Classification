@@ -176,6 +176,57 @@ def predict_board(image: np.ndarray) -> torch.Tensor:
     return out
 
 
+# Importable helpers for report figures (confusion matrices, calibration).
+# Same pipeline as predict_board(), plus per-square softmax. predict_board()
+# itself is left untouched (it is the graded entry point).
+def build_model(ckpt_path=CKPT_PATH):
+    """Build the DINOv2 classifier, load `ckpt_path`, return eval()-mode model."""
+    model = DinoClassifier(_build_backbone())
+    ckpt = torch.load(ckpt_path, map_location=DEVICE, weights_only=False)
+    model.load_state_dict(ckpt["model_state_dict"], strict=True)
+    model.to(DEVICE).eval()
+    return model
+
+
+@torch.no_grad()
+def predict_board_proba(image: np.ndarray, model=None):
+    """Like predict_board() but also returns per-square softmax.
+
+    Returns (grid (8,8) int64 labels, conf (8,8) float32 max-softmax,
+    probs (64,13) float32 row-major). Does NOT swallow exceptions."""
+    if model is None:
+        model = _get_model()
+
+    img = np.ascontiguousarray(image)
+    if img.ndim == 2:
+        img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+    if img.dtype != np.uint8:
+        img = np.clip(img, 0, 255).astype(np.uint8)
+    bgr = cv2.cvtColor(img[:, :, :3], cv2.COLOR_RGB2BGR)
+
+    corners = _get_corners(bgr)
+    warped = warp_chessboard_image(bgr, corners)
+
+    crops = []
+    for row in range(8):
+        for col in range(8):
+            crop_bgr = crop_square(warped, row, col)
+            crop_rgb = cv2.cvtColor(crop_bgr, cv2.COLOR_BGR2RGB)
+            t = torch.from_numpy(np.ascontiguousarray(crop_rgb)).permute(2, 0, 1).float() / 255.0
+            crops.append(t)
+    batch = torch.stack(crops, dim=0).to(DEVICE)
+    batch = _RESIZE(batch)
+    batch = (batch - _IMAGENET_MEAN) / _IMAGENET_STD
+
+    logits = model(batch)
+    probs = torch.softmax(logits, dim=1)
+    conf, preds = probs.max(dim=1)
+    grid = preds.cpu().numpy().reshape(8, 8).astype(np.int64)
+    conf = conf.cpu().numpy().reshape(8, 8).astype(np.float32)
+    probs = probs.cpu().numpy().astype(np.float32)
+    return grid, conf, probs
+
+
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         from PIL import Image
